@@ -66,6 +66,37 @@ from pulp_rpm.app.models import (
 from pulp_rpm.app.shared_utils import _prepare_package
 
 
+class ApplicabilitySerializer(NoArtifactContentSerializer):
+    """
+    A Serializer for Applicability query.
+
+    Add serializers for the updateable Package NEVRAs, the updateable Module NSVCAs, and potentially
+    applicable advisories.
+    """
+
+    package_nevras = serializers.ListField(
+        help_text=_('A list of updateable package NEVRAs'),
+        read_only=True,
+        default=[]
+    )
+    module_nsvcas = serializers.ListField(
+        help_text=_('A list of updateable module NSVCAa'),
+        read_only=True,
+        default=[]
+    )
+    update_records = serializers.ListField(
+        help_text=_('A list of applicable advisories'),
+        read_only=True,
+        default=[]
+    )
+
+    class Meta:
+        model = UpdateRecord
+        fields = UpdateRecordSerializer.Meta.fields + (
+            'package_nevras', 'module_nsvcas', 'update_records'
+        )
+
+
 class PackageSerializer(SingleArtifactContentUploadSerializer):
     """
     A Serializer for Package.

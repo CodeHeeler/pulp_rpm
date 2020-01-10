@@ -59,6 +59,16 @@ from pulp_rpm.app.serializers import (
 )
 
 
+class ApplicabilityViewSet(ReadOnlyContentViewSet):
+    """
+    A ViewSet for Applicability queries.
+    """
+
+    endpoint_name = 'applicability'
+    queryset = Package.objects.all()
+    serializer_class = ApplicabilitySerializer
+
+
 class PackageFilter(ContentFilter):
     """
     FilterSet for Package.
